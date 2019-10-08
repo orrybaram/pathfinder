@@ -9,9 +9,11 @@ export enum NodeType {
 
 type Props = {
   column: number;
+  distance: number;
+  id: string;
+  isWall: boolean;
   row: number;
   type: NodeType;
-  id: string;
 };
 
 const Node = (props: Props) => {
