@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Node from './components/Node';
 import './Pathfinder.styles.css';
 import { NodeType } from './components/Node/Node';
+import djikstra from './lib/finders/dijkstra';
 
 const GRID_HEIGHT = 30;
 const GRID_WIDTH = 60;
@@ -27,6 +28,8 @@ type NodeState = {
   row: number;
   type: NodeType;
   id: string;
+  distance: number;
+  isWall: boolean;
 };
 
 const initialGridState: { [id: string]: NodeState } = {};
@@ -43,6 +46,8 @@ const getInitialGrid = () => {
         col,
         row,
         id,
+        distance: Infinity,
+        isWall: false,
         type: getNodeType({ row, col }),
       };
 
@@ -56,26 +61,35 @@ const initialGrid = getInitialGrid();
 const Pathfinder = () => {
   const [grid, setGrid] = useState(initialGridState);
 
-  return (
-    <div className="grid">
-      {initialGrid.map(row => {
-        return (
-          <div className="row">
-            {row.map(id => {
-              const node = grid[id];
+  const runPathFinder = () => {
+    // djikstra();
+  };
 
-              return (
-                <Node
-                  column={node.col}
-                  row={node.row}
-                  type={node.type}
-                  id={node.id}
-                />
-              );
-            })}
-          </div>
-        );
-      })}
+  return (
+    <div>
+      <button onClick={runPathFinder}>Run!</button>
+      <div className="grid">
+        {initialGrid.map(row => {
+          return (
+            <div className="row">
+              {row.map(id => {
+                const node = grid[id];
+
+                return (
+                  <Node
+                    column={node.col}
+                    row={node.row}
+                    type={node.type}
+                    id={node.id}
+                    distance={node.distance}
+                    isWall={node.isWall}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
